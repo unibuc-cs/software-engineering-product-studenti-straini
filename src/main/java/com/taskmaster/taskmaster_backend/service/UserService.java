@@ -21,20 +21,24 @@ public class UserService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public User registerUser(String username, String password, String role) {
+    public User registerUser(String username, String password, String email) {
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("Bu kullanıcı adı zaten kullanımda!");
+            throw new RuntimeException("Acest username este deja folosit!");
         }
 
         User user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password)); // Şifreyi hashle
-        user.setRole(role);
+        user.setPassword(passwordEncoder.encode(password)); // Hash-uieste parola
+        user.setEmail(email);
 
         return userRepository.save(user);
     }
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    public boolean validatePassword(User user, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, user.getPassword());
     }
 }

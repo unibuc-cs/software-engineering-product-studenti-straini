@@ -22,10 +22,10 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody Map<String, String> userData) {
         String username = userData.get("username");
         String password = userData.get("password");
-        String role = userData.getOrDefault("role", "ROLE_USER");
+        String email = userData.get("email");
 
         try {
-            User newUser = userService.registerUser(username, password, role);
+            User newUser = userService.registerUser(username, password, email);
             return ResponseEntity.ok(newUser);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -38,11 +38,11 @@ public class UserController {
         String password = loginData.get("password");
 
         Optional<User> userOpt = userService.findByUsername(username);
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.status(401).body("Kullanıcı bulunamadı!");
+        if (userOpt.isEmpty() || !userService.validatePassword(userOpt.get(), password)) {
+            return ResponseEntity.status(401).body("Username sau parola incorecta!");
         }
 
         User user = userOpt.get();
-        return ResponseEntity.ok("Giriş başarılı! Kullanıcı: " + user.getUsername());
+        return ResponseEntity.ok("Autentificare reusita! Utilizator: " + user.getUsername());
     }
 }

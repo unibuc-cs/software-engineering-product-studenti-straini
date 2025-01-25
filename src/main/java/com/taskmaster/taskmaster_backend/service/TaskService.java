@@ -21,7 +21,7 @@ public class TaskService {
     }
 
     public List<Task> getTasksByUserId(Long userId) {
-        return taskRepository.findByUserId(userId);
+        return taskRepository.findByUser_Id(userId);
     }
 
     public List<Task> findAll() {
@@ -37,6 +37,7 @@ public class TaskService {
             task.setTitle(updatedTask.getTitle());
             task.setDescription(updatedTask.getDescription());
             task.setCompleted(updatedTask.isCompleted());
+            task.setPriority(updatedTask.getPriority());
             return taskRepository.save(task);
         }).orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
     }
