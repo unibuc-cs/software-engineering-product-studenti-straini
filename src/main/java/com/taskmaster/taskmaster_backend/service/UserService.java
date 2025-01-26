@@ -41,4 +41,5 @@ public class UserService {
     public boolean validatePassword(User user, String rawPassword) {
         return passwordEncoder.matches(rawPassword, user.getPassword());
     }
+
 }
