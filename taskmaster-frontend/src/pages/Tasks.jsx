@@ -28,8 +28,9 @@ const Tasks = ({ userId }) => {
             <ul>
                 {tasks.map((task) => (
                     <li key={task.taskId}>
-                        <Link to={`/tasks/${task.taskId}`}>
-                            <strong>{task.title}</strong> - {task.completed ? "✅ Completat" : "❌ Necompletat"}
+                        <Link to={`/tasks/${task.taskId}`} style={{textDecoration: 'none', color: 'black'}}>
+                            <strong>{task.title}</strong> - {task.completed ? "✅ Complet" : "❌ Incomplet"} <br/>
+                            <span>📅 Deadline: {task.deadline ? task.deadline : "Fără deadline"}</span>
                         </Link>
                     </li>
                 ))}

@@ -30,6 +30,7 @@ const TaskDetails = () => {
             <p><strong>Descriere:</strong> {task.description}</p>
             <p><strong>Prioritate:</strong> {task.priority}</p>
             <p><strong>Completat:</strong> {task.completed ? "✅ Da" : "❌ Nu"}</p>
+            <p><strong>📅 Deadline:</strong> {task.deadline ? task.deadline : "Fără deadline"}</p>
         </div>
     );
 };
