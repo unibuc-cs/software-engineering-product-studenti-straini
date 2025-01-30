@@ -1,5 +1,6 @@
 import React, { useState } from "react"; //cream o componenta React
 import api from "../services/api"; //am importat api din api.js
+import "../styles/Login.css";
 
 const Login = () => {
     const [username, setUsername] = useState("");
