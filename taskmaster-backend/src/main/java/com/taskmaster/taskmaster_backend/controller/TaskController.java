@@ -43,6 +43,14 @@ public class TaskController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //✅ Obtine toate task-urile dupa un anumit ID al unui utilizator
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable Long userId) {
+        List<Task> tasks = taskService.getTasksByUserId(userId);
+        return ResponseEntity.ok(tasks);
+    }
+
+
     // ✅ Actualizează task-ul (Actualizare completă - PUT).
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {

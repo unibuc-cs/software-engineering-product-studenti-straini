@@ -43,6 +43,13 @@ public class UserController {
         }
 
         User user = userOpt.get();
-        return ResponseEntity.ok("Autentificare reusita! Utilizator: " + user.getUsername());
+
+        Map<String, Object> response = Map.of(
+                "userId", user.getId(),
+                "username", user.getUsername()
+        );
+
+        return ResponseEntity.ok(response);
     }
+
 }
