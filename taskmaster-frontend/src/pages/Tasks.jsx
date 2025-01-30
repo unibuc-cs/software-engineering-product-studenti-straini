@@ -29,8 +29,15 @@ const Tasks = ({ userId }) => {
                 {tasks.map((task) => (
                     <li key={task.taskId}>
                         <Link to={`/tasks/${task.taskId}`} style={{textDecoration: 'none', color: 'black'}}>
-                            <strong>{task.title}</strong> - {task.completed ? "✅ Complet" : "❌ Incomplet"} <br/>
-                            <span>📅 Deadline: {task.deadline ? task.deadline : "Fără deadline"}</span>
+                            <strong>{task.title}</strong> - {task.completed ? "✅ Completat" : "❌ Necompletat"}
+                            {!task.completed && (
+                                <p>
+                                    📅 Deadline:{" "}
+                                    {task.deadline
+                                        ? new Date(task.deadline).toLocaleString()
+                                        : "Acest task nu are deadline"}
+                                </p>
+                            )}
                         </Link>
                     </li>
                 ))}
