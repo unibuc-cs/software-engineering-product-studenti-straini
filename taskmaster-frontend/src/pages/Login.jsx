@@ -1,6 +1,7 @@
 import React, { useState } from "react"; //cream o componenta React
 import api from "../services/api"; //am importat api din api.js
 import { useNavigate } from "react-router-dom";
+import "../styles/Login.css";
 
 const Login = () => {
     const [username, setUsername] = useState("");
