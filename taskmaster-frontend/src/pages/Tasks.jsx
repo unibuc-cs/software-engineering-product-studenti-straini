@@ -65,6 +65,32 @@ const Tasks = ({ userId }) => {
         return 0;
     });
 
+    //buton de marcare ca finalizat
+    const handleCompleteToggle = async (taskId, completed) => {
+        try {
+            await api.patch(`/tasks/${taskId}`, { completed: !completed });
+            setTasks(tasks.map(task =>
+                task.taskId === taskId ? { ...task, completed: !completed } : task
+            ));
+        } catch (error) {
+            console.error("Eroare la actualizarea statusului:", error);
+        }
+    };
+
+    //stergere cu confirmare
+    const handleDeleteTask = async (taskId) => {
+        const confirmDelete = window.confirm("Sigur vrei să ștergi acest task?");
+        if (!confirmDelete) return;
+
+        try {
+            await api.delete(`/tasks/${taskId}`);
+            setTasks(tasks.filter(task => task.taskId !== taskId));
+        } catch (error) {
+            console.error("Eroare la ștergerea task-ului:", error);
+        }
+    };
+
+
     //filtrare task uri
     const filteredTasks = [...sortedTasks].filter(task => {
         if (filterStatus === "completed" && !task.completed) return false;
@@ -78,9 +104,20 @@ const Tasks = ({ userId }) => {
         return true;
     });
 
+    const completedTasks = tasks.filter(task => task.completed).length;
+    const progress = (completedTasks / tasks.length) * 100 || 0;
+
     return (
         <div>
             <h2>Task-urile tale</h2>
+
+            {/*afisare bara progres*/}
+            <div style={{background: "#ddd", height: "10px", borderRadius: "5px", marginBottom: "10px"}}>
+                <div style={{
+                    width: `${progress}%`, background: "green", height: "10px", borderRadius: "5px"
+                }}></div>
+            </div>
+            <p>{completedTasks} din {tasks.length} task-uri completate</p>
 
             {/*filtrare si sortare*/}
             <div style={{display: "flex", gap: "10px", marginBottom: "10px"}}>
@@ -146,18 +183,13 @@ const Tasks = ({ userId }) => {
 
             <ul>
                 {filteredTasks.map((task) => (
-                    <li key={task.taskId}>
+                    <li key={task.taskId} style={{display: "flex", alignItems: "center", gap: "10px"}}>
+                        <input type="checkbox" checked={task.completed}
+                               onChange={() => handleCompleteToggle(task.taskId, task.completed)}/>
                         <Link to={`/tasks/${task.taskId}`} style={{textDecoration: 'none', color: 'black'}}>
                             <strong>{task.title}</strong> - {task.completed ? "✅ Completat" : "❌ Necompletat"}
-                            {!task.completed && (
-                                <p>
-                                    📅 Deadline:{" "}
-                                    {task.deadline
-                                        ? new Date(task.deadline).toLocaleString()
-                                        : "Acest task nu are deadline"}
-                                </p>
-                            )}
                         </Link>
+                        <button onClick={() => handleDeleteTask(task.taskId)}>🗑️ Șterge</button>
                     </li>
                 ))}
             </ul>

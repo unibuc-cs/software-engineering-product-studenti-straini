@@ -43,16 +43,6 @@ const TaskDetails = () => {
         }
     };
 
-    const handleCompleteToggle = async () => {
-        try {
-            const updatedTask = { ...task, completed: !task.completed };
-            await api.patch(`/tasks/${id}`, updatedTask);
-            setTask(updatedTask);
-        } catch (error) {
-            console.error("Eroare la actualizarea statusului:", error);
-        }
-    };
-
     if (!task) return <p>Se încarcă detaliile task-ului...</p>;
 
     return (
@@ -98,12 +88,6 @@ const TaskDetails = () => {
             )}
 
             {/* Checkbox pentru completare */}
-            <div style={{ marginTop: "10px" }}>
-                <label>
-                    <input type="checkbox" checked={task.completed} onChange={handleCompleteToggle} />
-                    Marchează ca {task.completed ? "necompletat" : "completat"}
-                </label>
-            </div>
 
             <button onClick={() => navigate("/tasks")} style={{ marginTop: "10px" }}>⬅️ Înapoi la task-uri</button>
         </div>
