@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Tasks = ({ userId }) => {
@@ -19,21 +19,27 @@ const Tasks = ({ userId }) => {
     const [filterPriority, setFilterPriority] = useState("ALL"); // "ALL", "HIGH", "MEDIUM", "LOW"
     const [filterDeadline, setFilterDeadline] = useState("ALL"); // "ALL", "Overdue", "Upcoming"
 
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem("userId");
+        navigate("/auth");
+    };
 
     useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const response = await api.get(`/tasks/user/${userId}`);
-                setTasks(response.data);
-            } catch (error) {
-                console.error("Eroare la preluarea task-urilor:", error);
-            }
-        };
-
-        if (userId) {
+        if (!userId) {
+            navigate("/auth");
+        } else {
+            const fetchTasks = async () => {
+                try {
+                    const response = await api.get(`/tasks/user/${userId}`);
+                    setTasks(response.data);
+                } catch (error) {
+                    console.error("Eroare la preluarea task-urilor:", error);
+                }
+            };
             fetchTasks();
         }
-    }, [userId]);
+    }, [userId, navigate]);
 
     const handleAddTask = async (e) => {
         e.preventDefault();
@@ -118,6 +124,9 @@ const Tasks = ({ userId }) => {
                 }}></div>
             </div>
             <p>{completedTasks} din {tasks.length} task-uri completate</p>
+
+            {/*buton de logout*/}
+            <button onClick={handleLogout}>Logout</button>
 
             {/*filtrare si sortare*/}
             <div style={{display: "flex", gap: "10px", marginBottom: "10px"}}>
