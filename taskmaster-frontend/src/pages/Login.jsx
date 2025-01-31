@@ -33,22 +33,28 @@ const Login = () => {
     };
 
     return (
-        <form onSubmit={handleLogin}>
-            <h2>Autentificare</h2>
-            <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Login</button>
-        </form>
+        <div>
+            <form onSubmit={handleLogin}>
+                <h2>Autentificare</h2>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="submit">Login</button>
+            </form>
+
+            <div style={{marginTop: "10px"}}>
+                <p>Nu ai cont? <button onClick={() => navigate("/auth/register")}>Creează unul aici</button></p>
+            </div>
+        </div>
     );
 };
 
