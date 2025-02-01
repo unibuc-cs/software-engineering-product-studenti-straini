@@ -3,6 +3,8 @@ package com.taskmaster.taskmaster_backend.model;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "tasks")
@@ -24,6 +26,8 @@ public class Task {
     @JoinColumn(name = "id")
     @JsonBackReference
     private User user;
+
+    private LocalDate deadline;
 
     // Constructors
     public Task() {}
@@ -57,4 +61,12 @@ public class Task {
 
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
+
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
 }

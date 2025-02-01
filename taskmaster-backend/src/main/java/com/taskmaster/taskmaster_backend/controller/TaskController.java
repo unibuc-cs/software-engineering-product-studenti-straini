@@ -39,16 +39,37 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         return taskService.findById(id)
-                .map(ResponseEntity::ok)
+                .map(task -> ResponseEntity.ok(task))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    //✅ Obtine toate task-urile dupa un anumit ID al unui utilizator
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable Long userId) {
+        List<Task> tasks = taskService.getTasksByUserId(userId);
+        return ResponseEntity.ok(tasks);
+    }
+
 
     // ✅ Actualizează task-ul (Actualizare completă - PUT).
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
         try {
-            Task updated = taskService.update(id, updatedTask);
-            return ResponseEntity.ok(updated);
+            Optional<Task> existingTaskOpt = taskService.findById(id);
+            if (existingTaskOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            Task existingTask = existingTaskOpt.get();
+            existingTask.setTitle(updatedTask.getTitle());
+            existingTask.setDescription(updatedTask.getDescription());
+            existingTask.setPriority(updatedTask.getPriority());
+            existingTask.setCompleted(updatedTask.getCompleted());
+
+            existingTask.setDeadline(updatedTask.getDeadline());
+
+            Task savedTask = taskService.save(existingTask);
+            return ResponseEntity.ok(savedTask);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -59,7 +80,6 @@ public class TaskController {
     public ResponseEntity<Task> partiallyUpdateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
         return taskService.findById(id)
                 .map(task -> {
-                    // Actualizează câmpurile doar dacă ele nu sunt null
                     if (updatedTask.getTitle() != null) {
                         task.setTitle(updatedTask.getTitle());
                     }
@@ -72,10 +92,8 @@ public class TaskController {
                     if (updatedTask.getCompleted() != null) {
                         task.setCompleted(updatedTask.getCompleted());
                     }
-
-                    // Verifică și asociază un utilizator dacă este specificat
-                    if (updatedTask.getUser() != null && updatedTask.getUser().getId() != null) {
-                        task.setUser(updatedTask.getUser());
+                    if (updatedTask.getDeadline() != null) {
+                        task.setDeadline(updatedTask.getDeadline());
                     }
 
                     Task savedTask = taskService.save(task);
