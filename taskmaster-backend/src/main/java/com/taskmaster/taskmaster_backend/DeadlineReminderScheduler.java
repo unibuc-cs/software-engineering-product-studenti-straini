@@ -29,7 +29,8 @@ public class DeadlineReminderScheduler {
         List<Task> upcomingTasks = taskRepository.findAll().stream()
                 .filter(task -> task.getDeadline() != null &&
                         !task.getDeadline().isBefore(today) &&
-                        task.getDeadline().equals(upcomingDate))
+                        task.getDeadline().equals(upcomingDate) &&
+                        !Boolean.TRUE.equals(task.getCompleted()))
                 .toList();
 
         for (Task task : upcomingTasks) {
