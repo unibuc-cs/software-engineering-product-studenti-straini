@@ -1,0 +1,332 @@
+.container {
+    position: relative;
+    padding: 20px;
+}
+
+/* Bara de progres */
+.progress-bar {
+    background-color: #b6b6b6;
+    height: 25px;
+    border-radius: 13px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress {
+    background-color: dodgerblue;
+    height: 100%;
+    border-radius: 13px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.logout-button {
+    background-color: #ef0909;
+    color: white;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    padding: 9px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 15px;
+    border: none;
+    width: auto;
+    display: inline-block;
+    max-width: 150px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.logout-button:hover {
+    background-color: #d10e0e;
+    transform: scale(1.05);
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.filters-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.filters-container select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filters-container select:hover {
+    border-color: #4CAF50;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.filters-container select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
+}
+
+.add-task-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    position: relative;
+
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.add-task-button::before {
+    content: "+";
+    position: relative;
+    margin-bottom: 3.2px;
+}
+
+.add-task-button:hover {
+    background-color: #388E3C;
+    transform: scale(1.1);
+}
+
+.add-task-button:active {
+    transform: scale(0.95);
+}
+
+.add-task-button:focus {
+    outline: none;
+}
+
+.task-form {
+    background-color: #e7e4e4;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 280px;
+    margin: 20px auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: fadeIn 0.4s ease-in-out;
+    border: 1px solid #ddd;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.task-form input,
+.task-form textarea,
+.task-form select {
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.task-form input:focus,
+.task-form textarea:focus,
+.task-form select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.task-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.task-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.task-form button:hover {
+    background-color: #388E3C;
+}
+
+
+.divider {
+    border: none;
+    height: 2px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.task-item.high {
+    background-color: #ff8a80;
+}
+
+.task-item.medium {
+    background-color: #ffcc80;
+}
+
+.task-item.low {
+    background-color: #a5d6a7;
+}
+
+.task-item.completed {
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.task-checkbox {
+    transform: scale(1.2);
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.task-content {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.task-title {
+    font-size: 1.1rem;
+    color: #222;
+}
+
+
+.status-separator {
+    margin: 0 5px;
+    color: #444;
+}
+
+.status {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.status.completed-status {
+    color: green;
+    font-weight: bold;
+}
+
+.deadline {
+    font-size: 0.85rem;
+    color: #888;
+    font-style: italic;
+}
+
+.delete-button {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.delete-button:hover {
+    background-color: #c62828;
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import api from "../services/api";
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
+import "../styles/Tasks.css";
+
 
 
 const Tasks = ({ userId }) => {
@@ -18,6 +20,25 @@ const Tasks = ({ userId }) => {
     const [filterStatus, setFilterStatus] = useState("all"); // "all", "completed", "incomplete"
     const [filterPriority, setFilterPriority] = useState("ALL"); // "ALL", "HIGH", "MEDIUM", "LOW"
     const [filterDeadline, setFilterDeadline] = useState("ALL"); // "ALL", "Overdue", "Upcoming"
+    const formRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (formRef.current && !formRef.current.contains(event.target)) {
+                setShowForm(false);
+            }
+        };
+
+        if (showForm) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showForm]);
 
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -114,22 +135,26 @@ const Tasks = ({ userId }) => {
     const progress = (completedTasks / tasks.length) * 100 || 0;
 
     return (
-        <div>
-            <h2>Task-urile tale</h2>
+        <div className="container">
+
+            {/* Buton de logout */}
+            <button onClick={handleLogout} className="logout-button">
+                Logout
+            </button>
+
+            <h2 className="title">Task-urile tale</h2>
 
             {/*afisare bara progres*/}
-            <div style={{background: "#ddd", height: "10px", borderRadius: "5px", marginBottom: "10px"}}>
-                <div style={{
-                    width: `${progress}%`, background: "green", height: "10px", borderRadius: "5px"
-                }}></div>
+            <div className="progress-bar">
+                <span className="progress-text">
+                    {completedTasks} din {tasks.length} task-uri completate
+                </span>
+                <div className="progress" style={{width: `${progress}%`}}></div>
             </div>
-            <p>{completedTasks} din {tasks.length} task-uri completate</p>
 
-            {/*buton de logout*/}
-            <button onClick={handleLogout}>Logout</button>
 
             {/*filtrare si sortare*/}
-            <div style={{display: "flex", gap: "10px", marginBottom: "10px"}}>
+            <div className="filters-container">
                 <select onChange={(e) => setSortBy(e.target.value)} value={sortBy}>
                     <option value="priority">📌 Sortare: Prioritate</option>
                     <option value="deadline">📅 Sortare: Deadline</option>
@@ -155,12 +180,18 @@ const Tasks = ({ userId }) => {
                 </select>
             </div>
 
+
             {/*buton pentru adaugarea unui task*/}
-            <button onClick={() => setShowForm(true)}>➕ Adaugă Task</button>
+            <button className="add-task-button" onClick={() => setShowForm(true)}>
+            </button>
+
 
             {showForm && (
-                <form onSubmit={handleAddTask}
-                      style={{marginTop: "10px", display: "flex", flexDirection: "column", gap: "5px"}}>
+                <form
+                    ref={formRef}
+                    onSubmit={handleAddTask}
+                    className="task-form"
+                >
                     <input
                         type="text"
                         placeholder="Titlu"
@@ -186,26 +217,57 @@ const Tasks = ({ userId }) => {
                         value={newTask.deadline}
                         onChange={(e) => setNewTask({...newTask, deadline: e.target.value})}
                     />
-                    <button type="submit">✅ Adaugă</button>
+                    <button type="submit">Adaugă</button>
                 </form>
             )}
 
-            <ul>
+            <hr className="divider"/>
+            {/*linia despartitoare */}
+
+            <ul className="task-list">
                 {filteredTasks.map((task) => (
-                    <li key={task.taskId} style={{display: "flex", alignItems: "center", gap: "10px"}}>
-                        <input type="checkbox" checked={task.completed}
-                               onChange={() => handleCompleteToggle(task.taskId, task.completed)}/>
-                        <Link to={`/tasks/${task.taskId}`} style={{textDecoration: 'none', color: 'black'}}>
-                            <strong>{task.title}</strong> - {task.completed ? "✅ Completat" : "❌ Necompletat"}
-                        </Link>
-                        <button onClick={() => handleDeleteTask(task.taskId)}>🗑️ Șterge</button>
+                    <li
+                        key={task.taskId}
+                        className={`task-item ${task.priority.toLowerCase()} ${task.completed ? 'completed' : ''}`}>
+                        <div className="task-left">
+                            <input
+                                type="checkbox"
+                                className="task-checkbox"
+                                checked={task.completed}
+                                onChange={() => handleCompleteToggle(task.taskId, task.completed)}
+                            />
+                            <Link to={`/tasks/${task.taskId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                <div className="task-content">
+                                    <strong className="task-title">{task.title}</strong>
+                                    <span className="status-separator"> - </span>
+                                    <span className={`status ${task.completed ? 'completed-status' : ''}`}>
+                                        {task.completed ? "✅ Completat" : "❌ În curs de realizare"}
+                                    </span>
+                                    {task.deadline && (
+                                        <>
+                                            <span className="status-separator"> - </span>
+                                            <span className="deadline">{task.deadline}</span>
+                                        </>
+                                    )}
+                                </div>
+                            </Link>
+                        </div>
+
+                        <button
+                            className="delete-button"
+                            onClick={() => handleDeleteTask(task.taskId)}
+                        >
+                            🗑️
+                        </button>
+
                     </li>
                 ))}
             </ul>
+
+
         </div>
     );
 };
-
 
 Tasks.propTypes = {
     userId: PropTypes.number,
