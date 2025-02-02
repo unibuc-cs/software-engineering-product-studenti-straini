@@ -5,7 +5,8 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: rgba(36, 36, 36, 0.18);
+  background: url("/public/pexels-inga-sv-5914433.jpg") no-repeat center center fixed;
+  background-size: cover;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,6 +29,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  //background-color: #486e75;
 }
 
 h1 {

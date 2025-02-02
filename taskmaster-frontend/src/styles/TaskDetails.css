@@ -1,0 +1,159 @@
+.task-details-container {
+    background-color: #e7e4e4;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: none;
+    margin: 20px auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: fadeIn 0.4s ease-in-out;
+    border: 1px solid #ddd;
+
+}
+.task-details-container.edit-mode  h2{
+    display: none;
+    margin: 0;
+    padding: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.task-details-container h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.task-details-container h3 {
+    color: #222;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.task-details-container p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.priority-high {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.priority-medium {
+    color: #f0ad4e;
+    font-weight: bold;
+}
+
+.priority-low {
+    color: #5cb85c;
+    font-weight: bold;
+}
+.task-details-container.edit-mode {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    border: none;
+}
+.task-edit-form {
+    background-color: #e7e4e4;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 280px;
+    margin: 20px auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: fadeIn 0.4s ease-in-out;
+    border: 1px solid #ddd;
+}
+
+.task-edit-form input,
+.task-edit-form textarea,
+.task-edit-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+input, textarea, select {
+    width: 100%; /* Ocupă întreaga lățime disponibilă */
+    max-width: 400px; /* Lățime maximă */
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Efect subtil de adâncime */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Tranziție pentru focus */
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Efect albastru la focus */
+    background-color: #ffffff;
+}
+
+.task-edit-form button {
+    width: auto;
+    align-self: center;
+    padding: 10px 20px;
+    background-color: #7a8798;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.task-edit-form button:hover {
+    background-color: #0056b3;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-button {
+    background-color: #cac8bf;
+    color: black;
+}
+
+.edit-button:hover {
+    background-color: #e0a800;
+}
+
+.back-button {
+    background-color: #6c757d;
+    color: white;
+    margin-top: 10px;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+.input-details {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+}
+
+.input-date {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import "../styles/TaskDetails.css";
 
 const TaskDetails = () => {
     const { id } = useParams(); // Extragem ID-ul din URL
@@ -14,6 +15,13 @@ const TaskDetails = () => {
         deadline: "",
         completed: false
     });
+
+    useEffect(() => {
+        document.body.classList.add("task-details-page");
+        return () => {
+            document.body.classList.remove("task-details-page");
+        };
+    }, []);
 
     useEffect(() => {
         console.log("Task ID primit:", id); // Debugging
@@ -32,6 +40,7 @@ const TaskDetails = () => {
         fetchTask();
     }, [id]);
 
+
     const handleUpdateTask = async (e) => {
         e.preventDefault();
         try {
@@ -46,19 +55,21 @@ const TaskDetails = () => {
     if (!task) return <p>Se încarcă detaliile task-ului...</p>;
 
     return (
-        <div>
-            <h2>Detalii Task</h2>
+        <div className={`task-details-container ${isEditing ? "edit-mode" : ""}`}>
+            {!isEditing && <h2 style={{ margin: 0, padding: 0 }}>Detalii Task</h2>}
 
             {isEditing ? (
-                <form onSubmit={handleUpdateTask} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <form onSubmit={handleUpdateTask} className="task-edit-form">
                     <input
                         type="text"
+                        className="input-details"
                         value={editedTask.title}
                         onChange={(e) => setEditedTask({ ...editedTask, title: e.target.value })}
                         required
                     />
                     <textarea
                         value={editedTask.description}
+                        className="input-details"
                         onChange={(e) => setEditedTask({ ...editedTask, description: e.target.value })}
                     />
                     <select
@@ -71,6 +82,7 @@ const TaskDetails = () => {
                     </select>
                     <input
                         type="date"
+                        className="input-date"
                         value={editedTask.deadline || ""}
                         onChange={(e) => setEditedTask({ ...editedTask, deadline: e.target.value })}
                     />
@@ -83,7 +95,7 @@ const TaskDetails = () => {
                     <p>Prioritate: {task.priority}</p>
                     <p>📅 Deadline: {task.deadline ? task.deadline : "Fără deadline"}</p>
                     <p>Status: {task.completed ? "✅ Complet" : "❌ Incomplet"}</p>
-                    <button onClick={() => setIsEditing(true)}>✏️ Editează</button>
+                    <button className="edit-button" onClick={() => setIsEditing(true)}>✏️ Editează</button>
                 </div>
             )}
 
