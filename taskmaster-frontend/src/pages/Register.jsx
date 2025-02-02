@@ -1,11 +1,13 @@
 import React, { useState } from "react"; //idem Login
 import api from "../services/api";
 import "../styles/Register.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -13,6 +15,7 @@ const Register = () => {
             const response = await api.post("/auth/register", { username, password, email });
             console.log(response.data);
             alert("Inregistrare reusita!");
+            navigate("/auth");
         } catch (error) {
             console.error(error.response?.data);
             alert("Eroare la inregistrare!");

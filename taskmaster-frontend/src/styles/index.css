@@ -5,6 +5,8 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
+  background: url('../images/img.png') no-repeat center center fixed;
+  background-size: cover;
 
 
   font-synthesis: none;
